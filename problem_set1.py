@@ -150,6 +150,27 @@ def plot_spikes(time,voltage,APTimes,titlestr):
     plt.figure()
     
     ##Your Code Here    
+
+    ### Get max signal level for drawing spikes
+    max_signal = max(v)
+
+    ### Plot Signal
+    plt.plot(time, voltage)
+    plt.title(titlestr)
+    plt.xlabel('time (s)')
+    plt.ylabel('voltage (uV)')
+
+
+
+    ### Overlay Predeicted Action Potential Spikes
+    # Hold plot for overlay
+    plt.hold()
+    for spike in APTimes:
+        # Draw each spike as a vector
+        plt.plot((spike, spike), (max_signal, max_signal * 1.1), 'red')
+
+    # Release plot
+    plt.hold()
     
     plt.show()
     
@@ -175,7 +196,8 @@ if __name__ == "__main__":
     t,v = load_data('spikes_example.npy')    
     actualTimes = get_actual_times('spikes_example_answers.npy')
     APTime = bad_AP_finder(t,v)
-    plot_spikes(t,v,APTime,'Your Code Here ')
+    #print "Found ", len(APTime), " spikes\n"
+    plot_spikes(t,v,APTime,'Neuron Potential Signal')
     plot_waveforms(t,v,APTime,'Your Code Here')
     detector_tester(APTime,actualTimes)
 
